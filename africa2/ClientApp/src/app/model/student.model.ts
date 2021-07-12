@@ -7,6 +7,7 @@ export class Student {
         
     }
     public id: Number;
-    public name: string;
+    public firstName: string;
+    public lastName: string;
     public age: Number;
 }
