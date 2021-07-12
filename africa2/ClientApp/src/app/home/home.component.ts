@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Student } from '../model/student.model';
 
 @Component({
@@ -8,6 +9,11 @@ import { Student } from '../model/student.model';
 export class HomeComponent {
   public students: Student[] = [];
   private names: string[] = ['Billy Bob', 'Sammy Feet', 'Jill Low', 'Barry Gordon', 'Sam Goodwill'];
+  
+  studentForm = new FormGroup({
+    firstName: new FormControl(''),
+    lastName: new FormControl(''),
+  });
 
   /**
    *
@@ -17,7 +23,6 @@ export class HomeComponent {
   }
 
   private createStudents(): void {
-
     for(let i = 0; i < 4; i++) {
       const student = new Student();
       student.id = i;
@@ -26,5 +31,9 @@ export class HomeComponent {
 
       this.students.push(student);
     }
+  }
+
+  onSubmit() {
+    console.warn(this.studentForm.value);
   }
 }
