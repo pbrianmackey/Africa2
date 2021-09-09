@@ -14,6 +14,9 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.16" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.7" />
+    <PackageReference Include="linq2db" Version="3.4.3" />
+    <PackageReference Include="linq2db.PostgreSQL" Version="3.4.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,6 +27,9 @@
 
   <ItemGroup>
     <None Remove="Models\" />
+    <None Remove="Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <None Remove="linq2db.PostgreSQL" />
+    <None Remove="linq2db" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
