@@ -16,18 +16,8 @@ namespace africa2.Controllers
     [Route("[controller]")]
     public class StudentController : ControllerBase
     {
+        // TODO: https://www.postgresql.org/docs/9.1/libpq-ssl.html (SET SSL)
         private readonly IConfiguration _configuration;
-
-        private static readonly string[] StudentFirstNames = new[]
-        {
-            "Billy", "Bobby", "Ricky", "Sam", "Joe", "Sarah"
-        };
-
-        private static readonly string[] StudentLastNames = new[]
-        {
-            "Mac", "Smith", "Jones", "Gills", "Rock", "Goliath"
-        };
-
         private readonly ILogger<StudentController> _logger;
 
         public StudentController(ILogger<StudentController> logger, IConfiguration configuration)
@@ -39,8 +29,6 @@ namespace africa2.Controllers
         [HttpGet]
         public IEnumerable<Student> Get()
         {
-            // PostgreSQL example
-
             string query = @"
                 SELECT ""FirstName"", ""LastName""
                 FROM public.""Student"";
@@ -66,7 +54,9 @@ namespace africa2.Controllers
 
             }
 
+
             // TODO: Figure out how to convert this to JsonResult return
+
 
             foreach (DataRow row in dataTable.Rows)
             {
@@ -78,27 +68,15 @@ namespace africa2.Controllers
             }
 
             // end PostgreSQL
-
-            /*
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new Student
-            {
-                FirstName = StudentFirstNames[rng.Next(StudentFirstNames.Length)],
-                LastName = StudentLastNames[rng.Next(StudentLastNames.Length)],
-            })
-            .ToArray();
-            */
         }
 
         [HttpPost]
-        public IEnumerable<Student> Post()
+        public IEnumerable<Student> Post([FromBody] Student student)
         {
-            // PostgreSQL example
-
             // Convert to LINQ
 
             string query = @"
-                INSERT INTO Student(FirstName, LastName)
+                INSERT INTO public.""Student""(""FirstName"", ""LastName"")
 	            VALUES(@FirstName, @LastName);
             ";
 
@@ -112,8 +90,8 @@ namespace africa2.Controllers
                 myCon.Open();
                 using (NpgsqlCommand cmd = new NpgsqlCommand(query, myCon))
                 {
-                    cmd.Parameters.AddWithValue("@FirstName", "Test");
-                    cmd.Parameters.AddWithValue("@LastName", "Magee");
+                    cmd.Parameters.AddWithValue("@FirstName", student.FirstName);
+                    cmd.Parameters.AddWithValue("@LastName", student.LastName);
 
                     myReader = cmd.ExecuteReader();
 
@@ -128,24 +106,10 @@ namespace africa2.Controllers
             // TODO: Figure out how to convert this to JsonResult return
 
             return null;
-
-            // end PostgreSQL
-
-            /*
-            var rng = new Random();
-            Student[] students = Enumerable.Range(1, 2).Select(index => new Student
-            {
-                FirstName = StudentFirstNames[rng.Next(StudentFirstNames.Length)],
-                LastName = StudentLastNames[rng.Next(StudentLastNames.Length)],
-            })
-            .ToArray();
-
-            return students;
-            */
         }
 
         [HttpPut]
-        public IEnumerable<Student> Put()
+        public IEnumerable<Student> Put([FromBody] Student student)
         {
             // Convert to LINQ
 
@@ -166,7 +130,7 @@ namespace africa2.Controllers
                 myCon.Open();
                 using (NpgsqlCommand cmd = new NpgsqlCommand(query, myCon))
                 {
-                    cmd.Parameters.AddWithValue("@FirstName", "Test");
+                    cmd.Parameters.AddWithValue("@FirstName", student.FirstName);
                     cmd.Parameters.AddWithValue("@LastName", "Magee");
 
                     myReader = cmd.ExecuteReader();
