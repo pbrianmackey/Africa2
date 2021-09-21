@@ -1,0 +1,16 @@
+<h1>Schools</h1>
+
+<ul>
+    <li *ngFor="let school of schools">{{ school.name + ' - ' + school.address }}</li>
+</ul>
+
+<h2>Add School</h2>
+<form [formGroup]="schoolForm" (ngSubmit)="onSubmit()">
+    <label for="first-name">Name</label>
+    <input id="school-name" type="text" formControlName="name">
+    <br />
+    <label for="last-name">Address</label>
+    <input id="school-address" type="text" formControlName="address">
+    <br />
+    <input type="submit" />
+</form>
